@@ -17,7 +17,10 @@ function toDataUrl(shareImage, callback) {
             callback(canvas);
         }
     };
- 
+}
+
+function changeStatus(status) {
+    document.getElementById("share-status").innerHTML = status;
 }
 function onShare () {
     console.log("Share clicked");
@@ -47,7 +50,13 @@ function onShareImage() {
                     text: shareText,
                     files: [file],
                 };
-                (window?.navigator).share(payload);
+                (window?.navigator).share(payload).then((res) => {
+                    console.log(`Sharing done res: ${res}`)
+                    changeStatus("Sharing Done");
+                }).catch((err) => {
+                    console.log(`Sharing error err: ${err}`)
+                    changeStatus("Sharing Failed");
+                });;
                 console.log(`Share Image Payload: ${JSON.stringify(payload)}`);
             }
         });
@@ -62,7 +71,14 @@ function onShareBasic() {
         title: shareTitle,
         text: shareText,
     };
-    (window?.navigator).share(payload);
+    changeStatus("Sharing");
+    (window?.navigator).share(payload).then((res) => {
+        console.log(`Sharing done res: ${res}`)
+        changeStatus("Sharing Done");
+    }).catch((err) => {
+        console.log(`Sharing error err: ${err}`)
+        changeStatus("Sharing Failed");
+    });
     console.log(`Share Basic Payload: ${JSON.stringify(payload)}`);
     return;
 }
