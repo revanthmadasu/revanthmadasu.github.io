@@ -24,6 +24,7 @@ function changeStatus(status) {
 }
 function onShare () {
     console.log("Share clicked");
+    changeStatus("Sharing");
     window.navigator
     .share({
       url: "https://swiggy.com/",
@@ -32,14 +33,19 @@ function onShare () {
     })
     .then((res) => {
       console.log(res);
+      console.log(`Sharing done res: ${res}`);
+      changeStatus("Sharing Done");
+
     })
     .catch((err) => {
       console.log(err);
+      changeStatus("Sharing Failed");
     });
 }
 
 function onShareImage() {
     console.log("Share Image clicked");
+    changeStatus("Sharing");
     toDataUrl(shareImg, (canvas) => {
         canvas.toBlob(function (blob) {
             if (blob) {
