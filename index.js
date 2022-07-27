@@ -3,21 +3,29 @@ const shareTitle = "Share link with recipient";
 const shareText = "I've roasted you via Swiggy #RoastyourDost. Click on the link below to see https://swiggy.onelink.me/888564224/0h55bm0i";
 const shareImg = "https://res.cloudinary.com/swiggy/image/upload/nye-2021/generic_share_image";
 const shareVideo = "https://res.cloudinary.com/swiggy/video/upload/fl_attachment/v1658469799/roast_dost/download-without-msg.mp4";
-function toDataUrl(shareFileUrl, callback) {
+function toDataUrl(isVideo, shareFileUrl, callback) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = shareFileUrl;
-  
-    img.onload = () => {
-        canvas.height = img.naturalHeight;
-        canvas.width = img.naturalWidth;
-        if (ctx) {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            callback(canvas);
-        }
-    };
+    if (isVideo) {
+        const video = document.createElement("video");
+        video.src = shareVideo;
+        video.addEventListener('loadeddata', function() {
+            video.play();
+            ctx.drawImage(video, xStart, yStart, xEnd-xStart, yEnd-yStart);
+        });
+    } else {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = shareFileUrl;
+        img.onload = () => {
+            canvas.height = img.naturalHeight;
+            canvas.width = img.naturalWidth;
+            if (ctx) {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                callback(canvas);
+            }
+        };
+    }
 }
 
 function changeStatus(status) {
@@ -47,7 +55,7 @@ function onShare () {
 function onShareImage() {
     // console.log("Share Image clicked");
     // changeStatus("Sharing");
-    toDataUrl(shareImg, (canvas) => {
+    toDataUrl(false, shareImg, (canvas) => {
         canvas.toBlob(function (blob) {
             if (blob) {
                 const file = new File([blob], "share.png", { type: blob.type });
@@ -74,7 +82,7 @@ function onShareImage() {
 function onShareVideo() {
     // console.log("Share Video clicked");
     // changeStatus("Sharing");
-    toDataUrl(shareVideo, (canvas) => {
+    toDataUrl(true, shareVideo, (canvas) => {
         canvas.toBlob(function (blob) {
             if (blob) {
                 const file = new File([blob], "share.mp4", { type: blob.type });
