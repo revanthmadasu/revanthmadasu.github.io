@@ -10,8 +10,8 @@ function toDataUrl(isVideo, shareFileUrl, callback) {
         const video = document.createElement("video");
         video.src = shareVideo;
         video.addEventListener('loadeddata', function() {
-            video.play();
-            ctx.drawImage(video, xStart, yStart, xEnd-xStart, yEnd-yStart);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            callback(canvas);
         });
     } else {
         const img = new Image();
