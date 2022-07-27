@@ -97,7 +97,7 @@ function onShareVideo() {
     toDataUrl(true, shareVideo, (canvas) => {
         canvas.toBlob(function (blob) {
             if (blob) {
-                const file = new File([blob], "share.mp4", { type: blob.type });
+                const file = new File([blob], "share.mp4", { type: "video/mp4" });
                 const payload = {
                     url: shareUrl,
                     title: shareTitle,
@@ -136,3 +136,5 @@ function onShareBasic() {
     // console.log(`Share Basic Payload: ${JSON.stringify(payload)}`);
     return;
 }
+
+// toDataUrl(true, shareVideo, (canvas) => {canvas.toBlob((blob) => {console.log(blob.type)}, "video/mp4")})
