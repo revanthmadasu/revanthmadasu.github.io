@@ -2,6 +2,7 @@ const shareUrl = "http://localhost:3000/preview";
 const shareTitle = "Share link with recipient";
 const shareText = "I've roasted you via Swiggy #RoastyourDost. Click on the link below to see https://swiggy.onelink.me/888564224/0h55bm0i";
 const shareImg = "https://res.cloudinary.com/swiggy/image/upload/nye-2021/generic_share_image";
+const shareVideo = "https://res.cloudinary.com/swiggy/video/upload/fl_attachment/v1658469799/roast_dost/download-without-msg.mp4";
 function toDataUrl(shareImage, callback) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -44,12 +45,39 @@ function onShare () {
 }
 
 function onShareImage() {
-    console.log("Share Image clicked");
-    changeStatus("Sharing");
+    // console.log("Share Image clicked");
+    // changeStatus("Sharing");
     toDataUrl(shareImg, (canvas) => {
         canvas.toBlob(function (blob) {
             if (blob) {
                 const file = new File([blob], "share.png", { type: blob.type });
+                const payload = {
+                    url: shareUrl,
+                    title: shareTitle,
+                    text: shareText,
+                    files: [file],
+                };
+                (window?.navigator).share(payload).then((res) => {
+                    // console.log(`Sharing done res: ${res}`)
+                    // changeStatus("Sharing Done");
+                }).catch((err) => {
+                    // console.log(`Sharing error err: ${err}`)
+                    // changeStatus("Sharing Failed");
+                });;
+                // console.log(`Share Image Payload: ${JSON.stringify(payload)}`);
+            }
+        });
+    });
+
+}
+
+function onShareVideo() {
+    // console.log("Share Video clicked");
+    // changeStatus("Sharing");
+    toDataUrl(shareVideo, (canvas) => {
+        canvas.toBlob(function (blob) {
+            if (blob) {
+                const file = new File([blob], "share.mp4", { type: blob.type });
                 const payload = {
                     url: shareUrl,
                     title: shareTitle,
