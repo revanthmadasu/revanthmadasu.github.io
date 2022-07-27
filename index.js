@@ -113,7 +113,7 @@ function onShareVideo() {
                 });;
                 // console.log(`Share Image Payload: ${JSON.stringify(payload)}`);
             }
-        });
+        }, "video/mp4");
     });
 
 }
