@@ -2,17 +2,29 @@ const shareUrl = "http://localhost:3000/preview";
 const shareTitle = "Share link with recipient";
 const shareText = "I've roasted you via Swiggy #RoastyourDost. Click on the link below to see https://swiggy.onelink.me/888564224/0h55bm0i";
 const shareImg = "https://res.cloudinary.com/swiggy/image/upload/nye-2021/generic_share_image";
-const shareVideo = "https://res.cloudinary.com/swiggy/video/upload/fl_attachment/v1658469799/roast_dost/download-without-msg.mp4";
+const shareVideo = "https://res.cloudinary.com/swiggy/video/upload/v1658469799/roast_dost/download-without-msg.mp4";
 function toDataUrl(isVideo, shareFileUrl, callback) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (isVideo) {
         const video = document.createElement("video");
-        video.src = shareVideo;
+        video.controls = true;
+        video.autoplay = true;
+        video.crossOrigin="anonymous";
+        const source = document.createElement("source");
+        source.src=shareVideo;
+        video.appendChild(source);
+
+        // video.src = shareVideo;
+        source.addEventListener('loadeddata', function() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            callback(canvas);
+        });
         video.addEventListener('loadeddata', function() {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             callback(canvas);
         });
+        document.getElementsByTagName("body")[0].appendChild(video);
     } else {
         const img = new Image();
         img.crossOrigin = "Anonymous";
