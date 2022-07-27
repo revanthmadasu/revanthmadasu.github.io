@@ -23,8 +23,8 @@ function changeStatus(status) {
     document.getElementById("share-status").innerHTML = status;
 }
 function onShare () {
-    console.log("Share clicked");
-    changeStatus("Sharing");
+    // console.log("Share clicked");
+    // changeStatus("Sharing");
     window.navigator
     .share({
       url: "https://swiggy.com/",
@@ -33,13 +33,13 @@ function onShare () {
     })
     .then((res) => {
       console.log(res);
-      console.log(`Sharing done res: ${res}`);
-      changeStatus("Sharing Done");
+    //   console.log(`Sharing done res: ${res}`);
+    //   changeStatus("Sharing Done");
 
     })
     .catch((err) => {
-      console.log(err);
-      changeStatus("Sharing Failed");
+    //   console.log(err);
+    //   changeStatus("Sharing Failed");
     });
 }
 
@@ -57,13 +57,13 @@ function onShareImage() {
                     files: [file],
                 };
                 (window?.navigator).share(payload).then((res) => {
-                    console.log(`Sharing done res: ${res}`)
-                    changeStatus("Sharing Done");
+                    // console.log(`Sharing done res: ${res}`)
+                    // changeStatus("Sharing Done");
                 }).catch((err) => {
-                    console.log(`Sharing error err: ${err}`)
-                    changeStatus("Sharing Failed");
+                    // console.log(`Sharing error err: ${err}`)
+                    // changeStatus("Sharing Failed");
                 });;
-                console.log(`Share Image Payload: ${JSON.stringify(payload)}`);
+                // console.log(`Share Image Payload: ${JSON.stringify(payload)}`);
             }
         });
     });
@@ -71,20 +71,20 @@ function onShareImage() {
 }
 
 function onShareBasic() {
-    console.log("Share basic clicked");
+    // console.log("Share basic clicked");
     const payload = {
         url: shareUrl,
         title: shareTitle,
         text: shareText,
     };
-    changeStatus("Sharing");
+    // changeStatus("Sharing");
     (window?.navigator).share(payload).then((res) => {
-        console.log(`Sharing done res: ${res}`)
-        changeStatus("Sharing Done");
+        // console.log(`Sharing done res: ${res}`)
+        // changeStatus("Sharing Done");
     }).catch((err) => {
-        console.log(`Sharing error err: ${err}`)
-        changeStatus("Sharing Failed");
+        // console.log(`Sharing error err: ${err}`)
+        // changeStatus("Sharing Failed");
     });
-    console.log(`Share Basic Payload: ${JSON.stringify(payload)}`);
+    // console.log(`Share Basic Payload: ${JSON.stringify(payload)}`);
     return;
 }
